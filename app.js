@@ -1,5 +1,6 @@
 const form = document.getElementById("form");
 const imgcontainer = document.getElementById("img-container");
+const thumbDis = document.getElementById("thumbs");
 
 form.addEventListener("submit", function (e) {
   e.preventDefault();
@@ -9,16 +10,18 @@ form.addEventListener("submit", function (e) {
   search(query);
 });
 
-function clearGallery() {}
-
 async function search(queryParam) {
   let response = await fetch(
     `https://api.unsplash.com/search/photos?page=1&query=${queryParam}&client_id=_yyXBx_Z41nrX0ItYX2TcUQUYVDo_6Lv4gT0hwxwhTI`
   );
 
   let data = await response.json();
+  console.log(data);
 
-  createImages(data.results);
+  let imgArray = data.results;
+
+  createImages(imgArray);
+  createThumbs(imgArray);
 }
 
 function createImages(arrayImages) {
@@ -27,5 +30,14 @@ function createImages(arrayImages) {
     let imgTag = document.createElement("img");
     imgTag.src = img.urls.regular;
     imgcontainer.appendChild(imgTag);
+  });
+}
+
+function createThumbs(arrayImages) {
+  thumbDis.innerHTML = "";
+  arrayImages.forEach((img) => {
+    let imgTag = document.createElement("img");
+    imgTag.src = img.urls.thumb;
+    thumbDis.appendChild(imgTag);
   });
 }
