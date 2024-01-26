@@ -8,7 +8,7 @@ form {
   display: flex;
   justify-content: center;
   position: absolute;
-  top: 14vh;
+  top: 5vh;
   left: 50%;
   right: 50%;
 }
@@ -18,7 +18,7 @@ form {
 }
 
 .image-container img {
-  width: 100vw;
+  width: auto;
   height: 100vh;
   object-fit: cover;
 }
@@ -28,7 +28,7 @@ form {
   position: absolute;
   top: 0px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 100vw;
   overflow: scroll;
 }
@@ -36,21 +36,26 @@ form {
 .thumb-container {
   position: relative;
   z-index: 1;
+  left: 50px;
   margin-top: 20px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 #thumbs {
   overflow: scroll;
   background-color: antiquewhite;
   display: flex;
-  width: 400px;
-  height: 10vh;
+  flex-direction: column;
+  border: 8px solid rgba(128, 128, 128, 0.377);
+  height: 25vw;
+  width: 10vh;
 }
 
 #thumbs img {
-  width: 400px;
-  height: 10vh;
-  object-fit: cover;
+  object-fit: contain;
+}
+
+#thumbs img:hover {
+  cursor: pointer;
 }

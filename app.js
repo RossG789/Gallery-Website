@@ -12,7 +12,7 @@ form.addEventListener("submit", function (e) {
 
 async function search(queryParam) {
   let response = await fetch(
-    `https://api.unsplash.com/search/photos?page=1&query=${queryParam}&client_id=_yyXBx_Z41nrX0ItYX2TcUQUYVDo_6Lv4gT0hwxwhTI`
+    `https://api.unsplash.com/search/photos?page=5&query=${queryParam}&client_id=_yyXBx_Z41nrX0ItYX2TcUQUYVDo_6Lv4gT0hwxwhTI`
   );
 
   let data = await response.json();
