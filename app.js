@@ -24,6 +24,7 @@ async function search(queryParam) {
   createThumbs(imgArray);
 }
 
+// Surely can be made shorter?
 function createImages(arrayImages) {
   imgcontainer.innerHTML = "";
   arrayImages.forEach((img) => {
@@ -39,5 +40,18 @@ function createThumbs(arrayImages) {
     let imgTag = document.createElement("img");
     imgTag.src = img.urls.thumb;
     thumbDis.appendChild(imgTag);
+    // Event Listener + alt description// 'click', function (imgTag.src)...?
+    // imgTag.addEventListener("click", () =>
+    //   imgcontainer.appendChild(img.urls.regular)
+    // );
   });
 }
+
+function displayThumb(img) {
+  createImages(img);
+}
+
+// Need to add event listeners to thumbs to diplay thumb image below
+// Add outline to thumb image to shpw which image is selected
+// Need to format images correctly
+// Need to add 'key-down' event listeners on arrows

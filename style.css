@@ -44,18 +44,30 @@ form {
 
 #thumbs {
   overflow: scroll;
-  background-color: antiquewhite;
+
   display: flex;
   flex-direction: column;
-  border: 8px solid rgba(128, 128, 128, 0.377);
+  border: 8px solid rgba(255, 255, 255, 0.466);
+  border-radius: 8px;
   height: 25vw;
-  width: 10vh;
+  width: 12vh;
 }
 
 #thumbs img {
   object-fit: contain;
 }
 
+@keyframes fadeIn {
+  0% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 #thumbs img:hover {
+  animation: fadeIn 1.2s;
   cursor: pointer;
+  border: 2px solid white;
+  border-radius: 4px;
 }
