@@ -2,33 +2,18 @@
 const form = document.getElementById("form");
 const imgcontainer = document.getElementById("img-container");
 const thumbDis = document.getElementById("thumbs");
+// const goBackBtn = document.getElementById("btn-back");
+// const goFwdBtn = document.getElementById("btn-fwd");
+const body = document.querySelector("body");
 const clientId = "_yyXBx_Z41nrX0ItYX2TcUQUYVDo_6Lv4gT0hwxwhTI";
+// good practice when using API's that require keys. Allows for easier manipulation of fetch requests
 let imgArray = [];
+let currentIndex = 0;
+// Allows storage of index when background image chnages
 
+const announcer = document.getElementById("announcer");
 // Functions
 getRandomImg();
-
-form.addEventListener("submit", function (e) {
-  e.preventDefault();
-  //   console.log(e);
-  let query = e.target.input.value;
-
-  getSearchImg(query);
-});
-
-async function getSearchImg(queryParam) {
-  let response = await fetch(
-    `https://api.unsplash.com/search/photos?per_page=10&query=${queryParam}&client_id=${clientId}`
-  );
-
-  let data = await response.json();
-  console.log(data);
-
-  imgArray = data.results;
-
-  createImage(0);
-  createThumbs(imgArray);
-}
 
 async function getRandomImg() {
   let response = await fetch(
@@ -38,18 +23,52 @@ async function getRandomImg() {
   let data = await response.json();
 
   imgArray = data;
+  console.log(data);
 
   createThumbs(imgArray);
   createImage(0);
 }
 
-// Surely can be made shorter?
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
+  let searchValue = e.target.input.value;
+
+  // Trim used to ensure no blank spaces
+  if (searchValue.trim() !== "") {
+    getSearchImg(searchValue);
+  }
+});
+
+async function getSearchImg(queryParam) {
+  let response = await fetch(
+    `https://api.unsplash.com/search/photos?per_page=10&query=${queryParam}&client_id=${clientId}`
+  );
+
+  let data = await response.json();
+  // console.log(data);
+
+  imgArray = data.results;
+
+  createImage(0);
+  createThumbs(imgArray);
+}
+
 function createImage(index) {
-  imgcontainer.innerHTML = "";
-  heroImage = imgArray[index];
-  let imgTag = document.createElement("img");
-  imgTag.src = heroImage.urls.regular;
-  imgcontainer.appendChild(imgTag);
+  // To create limits of index
+  if (index >= 0 && index < imgArray.length) {
+    imgcontainer.innerHTML = "";
+    heroImage = imgArray[index];
+    let imgTag = document.createElement("img");
+    imgTag.src = heroImage.urls.regular;
+    imgTag.alt = heroImage.alt_description;
+    imgcontainer.appendChild(imgTag);
+    ariaAnnounce(heroImage.alt_description);
+    currentIndex = index;
+  }
+}
+
+function ariaAnnounce(altText) {
+  announcer.textContent = `Image changed to ${altText}`;
 }
 
 function createThumbs(arrayImages) {
@@ -59,6 +78,7 @@ function createThumbs(arrayImages) {
     let imgTag = document.createElement("img");
 
     imgTag.src = img.urls.thumb;
+    imgTag.alt = img.alt_description;
     imgTag.id = i;
     thumbDis.appendChild(imgTag);
     // Event Listener + alt description// 'click', function (imgTag.src)...?
@@ -67,11 +87,12 @@ function createThumbs(arrayImages) {
   });
 }
 
-// function displayThumb(img) {
-//   createImages(img);
-// }
+// Arrow button event listeners (Would it not just add/minus from the index to move through?)
 
-// Need to add event listeners to thumbs to diplay thumb image below
-// Add outline to thumb image to shpw which image is selected
-// Need to format images correctly
-// Need to add 'key-down' event listeners on arrows
+body.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowLeft") {
+    createImage(currentIndex - 1);
+  } else if (e.key === "ArrowRight") {
+    createImage(currentIndex + 1);
+  }
+});
