@@ -3,6 +3,10 @@
   box-sizing: border-box;
 }
 
+#announcer {
+  display: none;
+}
+
 form {
   z-index: 1;
   display: flex;
